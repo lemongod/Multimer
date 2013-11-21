@@ -8,7 +8,6 @@ public class Multimer extends JFrame implements Serializable
 {
     ArrayList<Stopwatch> list;
     private JFileChooser myChooser;
-  
     public static void main(String[] args)
     {
         Multimer m = new Multimer();
