@@ -39,7 +39,7 @@ public class Stopwatch extends JPanel
             
         });
 
-        start = new JButton("Start/Stop");
+        start = new JButton(name);
         start.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent evt){
                     if (isRunning){
