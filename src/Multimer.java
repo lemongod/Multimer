@@ -23,27 +23,16 @@ public class Multimer extends JFrame implements Serializable
         this.setLayout(new GridLayout(0, 1));  
         myChooser = new JFileChooser(System.getProperties().getProperty("user.dir"));
         
-//            sw1 = new Stopwatch(TIME + "Reddit: ", this);
-//            list.add(sw1);
-//            add(sw1);
-//            
-//            sw2 = new Stopwatch(TIME + "Sleeping: ", this);
-//            list.add(sw2);
-//            add(sw2);
-//            
-//            sw3 = new Stopwatch(TIME + "Gaming: ", this);
-//            list.add(sw3);
-//            add(sw3);
-        
         setJMenuBar(makeMenus());
         
         pack();
         setVisible(true);
     }
-    public void addStopwatch(String n)
+    public void addStopwatch(String n, double time)
     {
         Stopwatch sw = new Stopwatch(TIME + n + ": ", this);
         list.add(sw);
+        sw.setTime(time);
         add(sw);
         pack();
     }
@@ -59,8 +48,8 @@ public class Multimer extends JFrame implements Serializable
         result.add(new AbstractAction("Create stopwatch") {
             public void actionPerformed(ActionEvent e)
             {
-                String s = (String)JOptionPane.showInputDialog("Please enter task you're spending time on: ", "Reddit");
-                addStopwatch(s);
+                String s = (String)JOptionPane.showInputDialog("Please enter task you're spending time on: ", "Work");
+                addStopwatch(s, 0);
             }
         });
         result.add(new AbstractAction("Save") {
@@ -70,7 +59,7 @@ public class Multimer extends JFrame implements Serializable
                 int retrival = myChooser.showSaveDialog(null);
                 if (retrival == JFileChooser.APPROVE_OPTION) {
                     try {
-                        FileOutputStream fout = new FileOutputStream(myChooser.getSelectedFile());
+                        FileOutputStream fout = new FileOutputStream("list");
                         ObjectOutputStream oos = new ObjectOutputStream(fout);
                         oos.writeObject(list);
                         oos.close();
@@ -99,6 +88,10 @@ public class Multimer extends JFrame implements Serializable
                         ObjectInputStream ois = new ObjectInputStream(fin);
                         ArrayList<Stopwatch> l = (ArrayList) ois.readObject();
                         list = l;
+                        for (Stopwatch stop : list)
+                        {
+                            add(stop);
+                        }
                         pack();
                         ois.close();
                     }

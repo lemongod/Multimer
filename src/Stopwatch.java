@@ -77,4 +77,16 @@ public class Stopwatch extends JPanel
         myTimer.stop();
         isRunning = false;
     }
+    public void setTime(double d)
+    {
+        clockTime = d;
+    }
+    public double getTime()
+    {
+        return clockTime;
+    }
+    public String getName()
+    {
+        return name;
+    }
 }
