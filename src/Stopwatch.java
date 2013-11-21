@@ -1,9 +1,10 @@
-//Stopwatch object
+//Stopwatch object, MUCH CREDIT to whomever created the template stopwatch code (I think some colorado.edu/physics person, thank you!) 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Stopwatch extends JPanel
 {
+    final String TIME = "Time spent on ";
     private String name;
     private Timer myTimer;
     private JButton start;
@@ -39,7 +40,7 @@ public class Stopwatch extends JPanel
             
         });
 
-        start = new JButton(name);
+        start = new JButton(TIME + name + ": ");
         start.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent evt){
                     if (isRunning){
@@ -79,11 +80,11 @@ public class Stopwatch extends JPanel
     }
     public void setTime(double d)
     {
-        clockTime = d;
+        clockTick = (int) d;
     }
     public double getTime()
     {
-        return clockTime;
+        return clockTick;
     }
     public String getName()
     {

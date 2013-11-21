@@ -8,8 +8,7 @@ public class Multimer extends JFrame implements Serializable
 {
     ArrayList<Stopwatch> list;
     private JFileChooser myChooser;
-    final String TIME = "Time spent on ";
-    
+  
     public static void main(String[] args)
     {
         Multimer m = new Multimer();
@@ -30,7 +29,7 @@ public class Multimer extends JFrame implements Serializable
     }
     public void addStopwatch(String n, double time)
     {
-        Stopwatch sw = new Stopwatch(TIME + n + ": ", this);
+        Stopwatch sw = new Stopwatch(n, this);
         list.add(sw);
         sw.setTime(time);
         add(sw);
@@ -49,13 +48,16 @@ public class Multimer extends JFrame implements Serializable
             public void actionPerformed(ActionEvent e)
             {
                 String s = (String)JOptionPane.showInputDialog("Please enter task you're spending time on: ", "Work");
+                if (s == null)
+                {
+                    return;
+                }
                 addStopwatch(s, 0);
             }
         });
         result.add(new AbstractAction("Save") {
             public void actionPerformed(ActionEvent e) 
             {
-                myChooser.setCurrentDirectory(new File("src/"));
                 int retrival = myChooser.showSaveDialog(null);
                 if (retrival == JFileChooser.APPROVE_OPTION) {
                     try {
@@ -72,25 +74,24 @@ public class Multimer extends JFrame implements Serializable
         });
         result.add(new AbstractAction("Open") {
             public void actionPerformed (ActionEvent e) {
-                myChooser.setCurrentDirectory(new File("src/"));
                 int response = myChooser.showOpenDialog(null);
                 if (response == JFileChooser.APPROVE_OPTION) 
                 {
-                    try {
+                    try 
+                    {
                         new FileReader(myChooser.getSelectedFile());
                     }
-                    catch (FileNotFoundException e1) {
+                    catch (FileNotFoundException e1) 
+                    {
                         e1.printStackTrace();
                     }
-                    System.out.println("unserializing list");
                     try {
                         FileInputStream fin = new FileInputStream("list");
                         ObjectInputStream ois = new ObjectInputStream(fin);
                         ArrayList<Stopwatch> l = (ArrayList) ois.readObject();
-                        list = l;
-                        for (Stopwatch stop : list)
+                        for (Stopwatch stop : l)
                         {
-                            add(stop);
+                            addStopwatch(stop.getName(), stop.getTime());
                         }
                         pack();
                         ois.close();
